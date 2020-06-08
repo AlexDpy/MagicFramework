@@ -1,0 +1,29 @@
+{
+    "name": "alex/magic-framework",
+    "authors": [
+        {
+            "name": "Alexandre Dupuy",
+            "email": "alex.dpy@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MagicFramework\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\MagicFramework\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=7.1",
+        "psr/http-message": "^1.0",
+        "symfony/yaml": "^5.1",
+        "guzzlehttp/psr7": "^1.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.2",
+        "symfony/var-dumper": "^5.1"
+    }
+}

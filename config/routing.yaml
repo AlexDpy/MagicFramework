@@ -1,0 +1,7 @@
+homepage:
+    path: /
+    controller: MagicFramework\Controller\Home
+
+blog:
+    path: /blog/{year}/{month}/{day}
+    controller: MagicFramework\Controller\Blog
