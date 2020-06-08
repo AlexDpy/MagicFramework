@@ -33,14 +33,14 @@ class RouterTest extends TestCase
      */
     public function itShouldCallTheController()
     {
-        // Act
+        // Arrange
         $this->routeCollection->add(
             'homepage',
             new Route('Test\MagicFramework\Router\FakeController::homepage', '/')
         );
         $request = new Request('GET', '/');
 
-        // Arrange
+        // Act
         $result = $this->SUT->dispatch($request, [FakeController::class => new FakeController()]);
 
         // Assert
@@ -52,14 +52,14 @@ class RouterTest extends TestCase
      */
     public function itShouldCallTheControllerWithTheParameters()
     {
-        // Act
+        // Arrange
         $this->routeCollection->add(
             'blog',
             new Route('Test\MagicFramework\Router\FakeController::routeWithParams', '/blog/{year}/{month}/{day}')
         );
         $request = new Request('GET', '/blog/2020/06/08');
 
-        // Arrange
+        // Act
         $result = $this->SUT->dispatch($request, [FakeController::class => new FakeController()])->getBody()->getContents();
 
         // Assert
@@ -71,14 +71,14 @@ class RouterTest extends TestCase
      */
     public function itShouldCallTheControllerWithTheParametersInTheRightOrder()
     {
-        // Act
+        // Arrange
         $this->routeCollection->add(
             'blog',
             new Route('Test\MagicFramework\Router\FakeController::routeWithParamsNotInOrder', '/blog/{year}/{month}/{day}')
         );
         $request = new Request('GET', '/blog/2020/06/08');
 
-        // Arrange
+        // Act
         $result = $this->SUT->dispatch($request, [FakeController::class => new FakeController()])->getBody()->getContents();
 
         // Assert
