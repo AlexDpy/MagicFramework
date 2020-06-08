@@ -29,15 +29,17 @@ class Kernel
 
     public function __construct()
     {
+        // All those service instanciations could be replaced by a dependency injection component (i.e php-di/php-di, pimple/pimple, or symfony/dependency-injection)
+
         $routeCollection = (new YamlConfigurationLoader(new Parser()))
             ->load(__DIR__ . '/../config/routing.yaml');
         $routeMatcher = new RouteMatcher(new TokenResolver());
         $this->router = new Router($routeCollection, $routeMatcher);
-        $render = new Renderer(__DIR__ . '/Template/views/');
+        $renderer = new Renderer(__DIR__ . '/Template/views/');
 
         $this->controllers = [
-            HomeController::class => new HomeController($render),
-            BlogController::class => new BlogController($render),
+            HomeController::class => new HomeController($renderer),
+            BlogController::class => new BlogController($renderer),
         ];
     }
 
