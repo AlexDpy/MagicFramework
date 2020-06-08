@@ -1,0 +1,8 @@
+route_foo_bar:
+    path: /foo/bar/{param1}/{param2}
+    controller: Foo::bar
+    requirements:
+        param1: \w+
+        param2: \d+
+    defaults:
+        param2: 1

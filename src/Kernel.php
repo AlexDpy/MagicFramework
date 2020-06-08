@@ -10,6 +10,7 @@ use MagicFramework\Router\Matcher\TokenResolver;
 use MagicFramework\Router\Router;
 use Psr\Http\Message\ResponseInterface;
 use \Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\Yaml\Parser;
 
 class Kernel
 {
@@ -20,7 +21,8 @@ class Kernel
 
     public function __construct()
     {
-        $routeCollection = (new YamlConfigurationLoader())->load(__DIR__ . '/../config/routing.yaml');
+        $routeCollection = (new YamlConfigurationLoader(new Parser()))
+            ->load(__DIR__ . '/../config/routing.yaml');
         $routeMatcher = new RouteMatcher(new TokenResolver());
         $this->router = new Router($routeCollection, $routeMatcher);
     }
