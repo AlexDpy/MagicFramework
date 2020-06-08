@@ -10,20 +10,26 @@ class Route
     private $path;
     /** @var string[] */
     private $requirements;
-//    private $host = '';
-//    private $schemes = [];
-//    private $methods = [];
-//    private $defaults = [];
-//    private $options = [];
-//    private $condition = '';
     /** @var string[] */
-    private $params = [];
+    private $defaults;
 
-    public function __construct(string $controller, string $path, array $requirements = [])
-    {
+    /**
+     * Route constructor.
+     * @param string $controller
+     * @param string $path
+     * @param string[] $requirements
+     * @param string[] $defaults
+     */
+    public function __construct(
+        string $controller,
+        string $path,
+        array $requirements = [],
+        array $defaults = []
+    ) {
         $this->controller = $controller;
         $this->path = $path;
         $this->requirements = $requirements;
+        $this->defaults = $defaults;
     }
 
     public function getPath(): string
@@ -42,5 +48,10 @@ class Route
     public function getController(): string
     {
         return $this->controller;
+    }
+
+    public function getDefaults(): array
+    {
+        return $this->defaults;
     }
 }

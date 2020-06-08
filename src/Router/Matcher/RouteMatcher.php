@@ -17,20 +17,39 @@ class RouteMatcher
         $this->tokenResolver = $tokenResolver;
     }
 
+    /**
+     * @param Route $route
+     * @param RequestInterface $request
+     *
+     * @return string[]|bool An array of resolved parameters or false if it did not match
+     */
     public function match(Route $route, RequestInterface $request)
     {
-        $routeTokens = explode('/', $route->getPath());
-        $requestTokens = explode('/', $request->getUri()->getPath());
+        $routeTokens = explode('/', trim($route->getPath(), '/'));
+        $requestTokens = explode('/', trim($request->getUri()->getPath(), '/'));
 
         $params = [];
 
-        if (count($routeTokens) !== count($requestTokens)) {
+        if (empty($route->getDefaults()) && count($requestTokens) !== count($routeTokens)) {
+            return false;
+        }
+
+        if ($route->getDefaults() && count($requestTokens) > count($routeTokens)) {
             return false;
         }
 
         foreach ($routeTokens as $index => $routeToken) {
-            if (false === $token = $this->tokenResolver->resolve($routeToken, $requestTokens[$index], $route->getRequirements())) {
+            if (false === $token = $this->tokenResolver->resolve(
+                $routeToken,
+                $requestTokens[$index] ?? null,
+                $route->getRequirements(),
+                $route->getDefaults()
+            )) {
                 return false;
+            }
+
+            if (array_key_exists($token->getName(), $route->getDefaults())) {
+                $requestTokens[$index] = $token->getValue();
             }
 
             if ($token->getValue() !== $requestTokens[$index]) {

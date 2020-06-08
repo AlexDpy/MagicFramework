@@ -22,7 +22,8 @@ class YamlConfigurationLoader
             $routeCollection->add($name, new Route(
                 $config['controller'],
                 $config['path'],
-                $config['requirements'] ?? []
+                $config['requirements'] ?? [],
+                $config['defaults'] ?? []
             ));
         }
 

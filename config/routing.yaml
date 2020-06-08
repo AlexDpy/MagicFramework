@@ -9,3 +9,7 @@ blog:
         year: \d+
         month: \d+
         day: \d+
+    defaults:
+        day: '01'
+        month: '01'
+        year: '2020'

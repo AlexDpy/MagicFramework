@@ -72,9 +72,21 @@ class TokenResolverTest extends TestCase
     public function itShouldNotResolveATokenWithRequirementThatDoesNotMatch()
     {
         // Act
-        $result = $this->SUT->resolve('{month}', 'june', ['month' => '\d+'], null);
+        $result = $this->SUT->resolve('{month}', 'june', ['month' => '\d+']);
 
         // Assert
         $this->assertFalse($result);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldResolveATokenWithDefault()
+    {
+        // Act
+        $result = $this->SUT->resolve('{year}', null, ['year' => '\d+'], ['year' => '2020']);
+
+        // Assert
+        $this->assertEquals(new Token('2020', 'year'), $result);
     }
 }

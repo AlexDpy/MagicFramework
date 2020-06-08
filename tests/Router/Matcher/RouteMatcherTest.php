@@ -94,7 +94,7 @@ class RouteMatcherTest extends TestCase
     public function itShouldNotMatchIfTheNumberOfTokensInTheRouteIsLowerThanInTheRequest()
     {
         // Arrange
-        $route = new Route('class::method', '/blog/{year}/{month}', []);
+        $route = new Route('class::method', '/blog/{year}/{month}');
         $request = new Request('GET', '/blog/2020/06/08');
 
         // Act
@@ -146,5 +146,29 @@ class RouteMatcherTest extends TestCase
 
         // Assert
         $this->assertFalse($result);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldMatchAPathWithParametersAndDefaults()
+    {
+        // Arrange
+        $route = new Route('class::method', '/blog/{year}/{month}/{day}', [], [
+            'year' => '2020',
+            'month' => '06',
+            'day' => '08',
+        ]);
+        $request = new Request('GET', '/blog');
+
+        // Act
+        $result = $this->SUT->match($route, $request);
+
+        // Assert
+        $this->assertEquals([
+            'year' => '2020',
+            'month' => '06',
+            'day' => '08',
+        ], $result);
     }
 }
