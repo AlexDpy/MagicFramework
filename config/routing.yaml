@@ -1,7 +1,11 @@
 homepage:
     path: /
-    controller: MagicFramework\Controller\Home
+    controller: MagicFramework\Controller\HomeController::homepage
 
 blog:
     path: /blog/{year}/{month}/{day}
-    controller: MagicFramework\Controller\Blog
+    controller: MagicFramework\Controller\BlogController::view
+    requirements:
+        year: \d+
+        month: \d+
+        day: \d+

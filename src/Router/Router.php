@@ -44,13 +44,19 @@ class Router
                 list($class, $method) = explode('::', $route->getController(), 2);
 
                 if (!method_exists($class, $method)) {
-                    throw new ControllerDoesNotExistException(sprintf('Controller %s::%s does not exist', $class, $method));
+                    throw new ControllerDoesNotExistException($class, $method);
                 }
 
-                return call_user_func_array([new $class(), $method], $resolvedParams);
+                $reOrderedParams = [];
+                $controller = new \ReflectionMethod($class, $method);
+                foreach ($controller->getParameters() as $param) {
+                    $reOrderedParams[$param->getPosition()] = $resolvedParams[$param->getName()];
+                }
+
+                return call_user_func_array([new $class(), $method], $reOrderedParams);
             }
         }
 
-        throw new RequestDidNotMatchException();
+        throw new RequestDidNotMatchException($request);
     }
 }

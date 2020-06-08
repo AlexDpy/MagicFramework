@@ -6,7 +6,7 @@ use MagicFramework\Router\Route;
 use MagicFramework\Router\RouteCollection;
 use Symfony\Component\Yaml\Yaml;
 
-class YamlConfigurationLoader // implements ConfigurationLoader
+class YamlConfigurationLoader
 {
     /**
      * @param $configurationFile
@@ -19,7 +19,11 @@ class YamlConfigurationLoader // implements ConfigurationLoader
 
         foreach ($configuredRoutes as $name => $config) {
             // TODO assert & validate the config
-            $routeCollection->add($name, new Route($config['path'], $config['controller'], $config['requirements']));
+            $routeCollection->add($name, new Route(
+                $config['controller'],
+                $config['path'],
+                $config['requirements'] ?? []
+            ));
         }
 
         return $routeCollection;
