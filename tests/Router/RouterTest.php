@@ -41,7 +41,7 @@ class RouterTest extends TestCase
         $request = new Request('GET', '/');
 
         // Arrange
-        $result = $this->SUT->dispatch($request);
+        $result = $this->SUT->dispatch($request, [FakeController::class => new FakeController()]);
 
         // Assert
         $this->assertEquals(new Response(), $result);
@@ -60,7 +60,7 @@ class RouterTest extends TestCase
         $request = new Request('GET', '/blog/2020/06/08');
 
         // Arrange
-        $result = $this->SUT->dispatch($request)->getBody()->getContents();
+        $result = $this->SUT->dispatch($request, [FakeController::class => new FakeController()])->getBody()->getContents();
 
         // Assert
         $this->assertEquals('day:08|month:06|year:2020', $result);
@@ -79,7 +79,7 @@ class RouterTest extends TestCase
         $request = new Request('GET', '/blog/2020/06/08');
 
         // Arrange
-        $result = $this->SUT->dispatch($request)->getBody()->getContents();
+        $result = $this->SUT->dispatch($request, [FakeController::class => new FakeController()])->getBody()->getContents();
 
         // Assert
         $this->assertEquals('day:08|month:06|year:2020', $result);

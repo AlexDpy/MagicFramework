@@ -31,12 +31,13 @@ class Router
     /**
      * @param RequestInterface $request
      *
+     * @param array $controllers
+     * @return ResponseInterface
      * @throws ControllerDoesNotExistException
      * @throws RequestDidNotMatchException
-     *
-     * @return ResponseInterface
+     * @throws \ReflectionException
      */
-    public function dispatch(RequestInterface $request): ResponseInterface
+    public function dispatch(RequestInterface $request, array $controllers): ResponseInterface
     {
         foreach ($this->routeCollection->all() as $route) {
             if (false !== $resolvedParams = $this->routeMatcher->match($route, $request)) {
@@ -53,7 +54,7 @@ class Router
                     $reOrderedParams[$param->getPosition()] = $resolvedParams[$param->getName()];
                 }
 
-                return call_user_func_array([new $class(), $method], $reOrderedParams);
+                return call_user_func_array([$controllers[$class], $method], $reOrderedParams);
             }
         }
 
